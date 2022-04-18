@@ -1,4 +1,5 @@
 using LibraryNetCoreAPI.Filtros;
+using LibraryNetCoreAPI.Models;
 using LibraryNetCoreAPI.Servicios;
 using LibraryNetCoreAPI.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -61,7 +62,7 @@ namespace LibraryNetCoreAPI
             {
                 config.SwaggerDoc("v1", new OpenApiInfo() { 
                     Title = "Web API",
-                    Description = "Este es un api para el control de una biblioteca, donde se manejan libros y autores, también comentarios de libros",
+                    Description = "Este es un api para el control de una biblioteca, donde se manejan libros y autores, tambiï¿½n comentarios de libros",
                     Version = "version 1",
                     Contact = new OpenApiContact
                     {
@@ -133,10 +134,10 @@ namespace LibraryNetCoreAPI
 
             services.AddAuthorization(options =>
                 options.AddPolicy("isAdmin", x => x.RequireClaim("isAdmin"))
-                //options.AddPolicy("isSeller", x => x.RequireClaim("isSeller")) se puede agregar varias políticas segun usuarios
+                //options.AddPolicy("isSeller", x => x.RequireClaim("isSeller")) se puede agregar varias polï¿½ticas segun usuarios
             );
 
-            //Encriptacion y desencriptación
+            //Encriptacion y desencriptaciï¿½n
             services.AddDataProtection();
 
             //Habilitacion de CORS
@@ -160,6 +161,9 @@ namespace LibraryNetCoreAPI
                 app.UseDeveloperExceptionPage();
             }
 
+            //Initial migration call
+            PrepareDb.Population(app);
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -173,13 +177,13 @@ namespace LibraryNetCoreAPI
                 endpoints.MapControllers();
             });
 
-            //Configuración de middleware SWAGGER
+            //Configuraciï¿½n de middleware SWAGGER
             app.UseSwagger();
             app.UseSwaggerUI(config =>
             {
                 config.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
                 config.SwaggerEndpoint("/swagger/v2/swagger.json", "v2");
-                config.RoutePrefix = ""; //para evitar problemas con la ruta en la que se lanza la aplicación al correr el proyecto
+                config.RoutePrefix = ""; //para evitar problemas con la ruta en la que se lanza la aplicaciï¿½n al correr el proyecto
             }
             );
         }
